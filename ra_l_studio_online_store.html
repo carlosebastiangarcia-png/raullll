@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RS(Raul Spidey) Game and friki</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter & FontAwesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0a0a0a',
+                            light: '#f8f9fa',
+                            gray: '#6c757d',
+                            accent: '#111111'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-white text-gray-900 antialiased selection:bg-black selection:text-white">
+
+    <!-- HEADER / NAVEGACIÓN -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <div class="flex items-center cursor-pointer" onclick="navigateTo('inicio')">
+                    <span class="text-2xl font-black tracking-widest text-black">RAÚL</span>
+                    <span class="ml-2 text-xs font-light text-gray-400 tracking-wider uppercase border-l border-gray-300 pl-2">STUDIO</span>
+                </div>
+
+                <!-- Menú Desktop -->
+                <nav class="hidden md:flex space-x-8 text-sm font-semibold text-gray-700">
+                    <button onclick="navigateTo('inicio')" class="nav-link transition-colors hover:text-black py-1" id="nav-inicio">Inicio</button>
+                    <button onclick="navigateTo('tienda')" class="nav-link transition-colors hover:text-black py-1" id="nav-tienda">Tienda</button>
+                    <button onclick="navigateTo('tienda')" class="nav-link transition-colors hover:text-black py-1" id="nav-categorias">Categorías</button>
+                    <button onclick="filterOffers()" class="nav-link transition-colors hover:text-black py-1" id="nav-ofertas">Ofertas</button>
+                    <button onclick="navigateTo('conocenos')" class="nav-link transition-colors hover:text-black py-1" id="nav-conocenos">Conócenos</button>
+                    <button onclick="navigateTo('contacto')" class="nav-link transition-colors hover:text-black py-1" id="nav-contacto">Contacto</button>
+                </nav>
+
+                <!-- Iconos de Acción -->
+                <div class="flex items-center space-x-5">
+                    <button onclick="toggleSearchModal()" class="text-gray-700 hover:text-black p-2 rounded-full hover:bg-gray-100 transition-all">
+                        <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                    </button>
+                    <button onclick="showWishlistNotification()" class="text-gray-700 hover:text-black p-2 rounded-full hover:bg-gray-100 transition-all relative">
+                        <i class="fa-regular fa-heart text-lg"></i>
+                    </button>
+                    <!-- Carrito con Badge -->
+                    <button onclick="navigateTo('carrito')" class="text-gray-700 hover:text-black p-2 rounded-full hover:bg-gray-100 transition-all relative">
+                        <i class="fa-solid fa-bag-shopping text-lg"></i>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-black text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NOTIFICACIÓN FLOTANTE (TOAST) -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-black text-white px-5 py-3 rounded-xl shadow-2xl transition-all duration-300 transform translate-y-20 opacity-0 z-50 flex items-center space-x-3">
+        <i class="fa-solid fa-circle-check text-green-400" id="toast-icon"></i>
+        <span id="toast-message" class="text-sm font-medium">Producto añadido</span>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main id="main-content">
+
+        <!-- ================= VISTA: INICIO ================= -->
+        <section id="view-inicio" class="view-section">
+            <!-- Hero Banner -->
+            <div class="relative bg-gray-900 min-h-[580px] flex items-center overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80" alt="Tienda Urbana" class="absolute inset-0 w-full h-full object-cover opacity-35">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+                
+                <div class="relative max-w-7xl mx-auto px-6 lg:px-8 py-24 text-white">
+                    <span class="inline-block bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold tracking-widest px-3 py-1 rounded-md uppercase mb-6">
+                        NUEVA COLECCIÓN 2026
+                    </span>
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight max-w-3xl mb-6">
+                        VISTE TU PROPIA IDENTIDAD.
+                    </h1>
+                    <p class="text-gray-300 text-base md:text-xl max-w-2xl font-light leading-relaxed mb-10">
+                        Diseños exclusivos para expresar quién eres. Playeras urbanas con íconos, ilustraciones y stampedos de máxima calidad.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="navigateTo('tienda')" class="bg-white text-black hover:bg-gray-100 font-bold px-8 py-4 rounded-full transition-all flex items-center space-x-3 shadow-lg hover:scale-105 transform">
+                            <span>EXPLORAR COLECCIÓN</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                        <button onclick="filterOffers()" class="border-2 border-white/50 hover:border-white text-white font-semibold px-8 py-4 rounded-full transition-all backdrop-blur-sm">
+                            Ver Ofertas
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Productos Destacados -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="flex justify-between items-end mb-10">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Destacados de Temporada</h2>
+                        <p class="text-gray-500 text-sm mt-1">Explora nuestras playeras más populares</p>
+                    </div>
+                    <button onclick="navigateTo('tienda')" class="text-sm font-bold text-black hover:underline flex items-center gap-2">
+                        Ver todo el catálogo <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="featured-products-grid">
+                    <!-- Dinámico vía JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VISTA: TIENDA / CATÁLOGO ================= -->
+        <section id="view-tienda" class="view-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <!-- Header Tienda & Filtros por Categoría -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-black mb-6">Catálogo Completo</h1>
+                
+                <!-- Categorías Píldoras -->
+                <div class="flex items-center space-x-2 overflow-x-auto pb-4 hide-scrollbar" id="category-pills">
+                    <!-- JS inyecta botones -->
+                </div>
+
+                <!-- Barra de filtros secundaria (Tallas y Orden) -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mt-6 pt-4 border-t border-gray-100">
+                    <div class="flex items-center space-x-4">
+                        <label class="text-xs font-bold uppercase tracking-wider text-gray-500">Talla:</label>
+                        <select id="filter-size" onchange="applyFilters()" class="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:border-black">
+                            <option value="ALL">Todas</option>
+                            <option value="XS">XS</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <label class="text-xs font-bold uppercase tracking-wider text-gray-500">Ordenar:</label>
+                        <select id="filter-order" onchange="applyFilters()" class="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:border-black">
+                            <option value="default">Destacados</option>
+                            <option value="price-low">Precio: Menor a Mayor</option>
+                            <option value="price-high">Precio: Mayor a Menor</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid de Productos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="catalog-products-grid">
+                <!-- JS inyecta los items -->
+            </div>
+        </section>
+
+        <!-- ================= VISTA: CONÓCENOS ================= -->
+        <section id="view-conocenos" class="view-section hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h1 class="text-3xl sm:text-5xl font-black mb-6 tracking-tight">Conócenos — RAUL</h1>
+                <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
+                    En RAÚL creemos que cada persona tiene una identidad propia. Por eso creamos una colección de playeras con diseños que expresan creatividad, personalidad y estilo. Queremos que encuentres prendas que se adapten a ti y que puedas elegir diseños con los que realmente te identifiques.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center my-16">
+                <div class="rounded-3xl overflow-hidden shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80" alt="Taller de Stampedos" class="w-full h-auto object-cover">
+                </div>
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mb-4">Estampados y Arte Urbano</h2>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Cada playera es el resultado de un riguroso proceso de selección textil, utilizando algodón peinado de primera calidad y tintas ecológicas de alta resistencia. Nuestros íconos y gráficos están pensados para destacar en cualquier entorno urbano.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 pt-4 border-t border-gray-100">
+                        <div>
+                            <span class="block text-2xl font-black">100%</span>
+                            <span class="text-xs text-gray-500 uppercase font-semibold">Algodón Premium</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-black">HD</span>
+                            <span class="text-xs text-gray-500 uppercase font-semibold">Impresión Duradera</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VISTA: CONTACTO ================= -->
+        <section id="view-contacto" class="view-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Canal Directo WhatsApp -->
+                <div class="bg-gray-50 p-8 sm:p-10 rounded-3xl border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-black text-white rounded-2xl flex items-center justify-center mb-6 text-xl">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <h2 class="text-2xl font-extrabold mb-3">Canal Directo WhatsApp</h2>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-8">
+                            La forma más rápida de comunicarte con nuestro equipo es a través de WhatsApp oficial. Resolveremos tus dudas sobre pedidos, tallas y envíos al instante.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/5215519242470" target="_blank" class="w-full bg-black text-white font-bold py-4 px-6 rounded-full flex items-center justify-center space-x-3 hover:bg-gray-800 transition-all shadow-md">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Abrir WhatsApp (+52 1 55 1924 2470)</span>
+                    </a>
+                </div>
+
+                <!-- Formulario de Mensaje -->
+                <div class="bg-gray-50 p-8 sm:p-10 rounded-3xl border border-gray-100">
+                    <h2 class="text-2xl font-extrabold mb-6">Envíanos un Mensaje</h2>
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre</label>
+                            <input type="text" required placeholder="Tu nombre" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-black text-sm bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Correo Electrónico o Teléfono</label>
+                            <input type="text" required placeholder="correo@ejemplo.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-black text-sm bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Mensaje</label>
+                            <textarea rows="4" required placeholder="Escribe tu duda..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-black text-sm bg-white resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-black text-white font-bold py-4 rounded-xl hover:bg-gray-800 transition-all text-sm uppercase tracking-wider">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VISTA: CARRITO DE COMPRAS ================= -->
+        <section id="view-carrito" class="view-section hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <h1 class="text-3xl font-black mb-2">Carrito de Compras</h1>
+            <p class="text-gray-500 text-sm mb-8">Revisa tus prendas seleccionadas antes de proceder al pedido por WhatsApp.</p>
+
+            <div class="grid lg:grid-cols-3 gap-10">
+                <!-- Lista de Artículos -->
+                <div class="lg:col-span-2">
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 mb-6">
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider" id="cart-item-count">ARTÍCULOS (0)</span>
+                        <button onclick="clearCart()" class="text-xs font-bold text-red-500 hover:underline flex items-center gap-1">
+                            <i class="fa-regular fa-trash-can"></i> Vaciar carrito
+                        </button>
+                    </div>
+
+                    <div id="cart-items-list" class="space-y-4">
+                        <!-- JS inyecta prendas -->
+                    </div>
+                </div>
+
+                <!-- Resumen del Pedido -->
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 h-fit">
+                    <h2 class="text-xl font-bold mb-6">Resumen del Pedido</h2>
+                    
+                    <div class="space-y-3 text-sm pb-6 border-b border-gray-200">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Subtotal</span>
+                            <span font-bold text-gray-900 id="cart-subtotal">$0.00 MXN</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Envío estándar</span>
+                            <span class="font-bold text-gray-900" id="cart-shipping">$120.00 MXN</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 italic">Agrega $600.00 MXN más para obtener envío gratis.</p>
+                    </div>
+
+                    <div class="flex justify-between items-center py-6">
+                        <span class="text-base font-bold">Total estimado</span>
+                        <span class="text-2xl font-black" id="cart-total">$0.00 MXN</span>
+                    </div>
+
+                    <button onclick="navigateTo('checkout')" id="btn-proceed-checkout" class="w-full bg-black text-white font-bold py-4 rounded-full hover:bg-gray-800 transition-all flex items-center justify-center space-x-2">
+                        <span>Proceder a Datos de Entrega</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+
+                    <button onclick="navigateTo('tienda')" class="w-full text-center text-xs font-bold text-gray-500 hover:text-black mt-4 block">
+                        Continuar comprando
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VISTA: CHECKOUT (DATOS DE ENTREGA Y PAGO) ================= -->
+        <section id="view-checkout" class="view-section hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <h1 class="text-3xl font-black mb-2">Datos de Entrega y Pago</h1>
+            <p class="text-gray-500 text-sm mb-8">Completa tus datos para procesar el pedido y enviar la orden a WhatsApp.</p>
+
+            <div class="grid lg:grid-cols-2 gap-10">
+                <!-- Formulario -->
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100">
+                    <h2 class="text-lg font-bold mb-6">Información de Envío</h2>
+                    <form id="checkout-form" onsubmit="processOrderWhatsApp(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre Completo *</label>
+                            <input type="text" id="cust-name" required placeholder="Ej. Carlos Mendoza" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-black text-sm bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Teléfono WhatsApp *</label>
+                            <input type="tel" id="cust-phone" required placeholder="Ej. 55 1234 5678" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-black text-sm bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Ciudad / Estado *</label>
+                            <input type="text" id="cust-city" required placeholder="Ej. Ciudad de México" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-black text-sm bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Dirección Exacta de Entrega *</label>
+                            <input type="text" id="cust-address" required placeholder="Calle, número exterior/interior, colonia, código postal" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-black text-sm bg-white">
+                        </div>
+
+                        <button type="submit" class="w-full mt-6 bg-black text-white font-bold py-4 rounded-full hover:bg-gray-800 transition-all flex items-center justify-center space-x-2 shadow-lg">
+                            <span>CONFIRMAR Y PROCESAR PEDIDO</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Resumen Final -->
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 h-fit">
+                    <h2 class="text-lg font-bold mb-4">Resumen del Pedido</h2>
+                    <div id="checkout-summary-items" class="space-y-3 border-b border-gray-200 pb-4 mb-4 text-sm">
+                        <!-- JS inyecta breve lista -->
+                    </div>
+                    <div class="space-y-2 text-sm border-b border-gray-200 pb-4">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Subtotal</span>
+                            <span class="font-bold text-gray-900" id="checkout-subtotal">$0.00 MXN</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Envío</span>
+                            <span class="font-bold text-gray-900" id="checkout-shipping">$120.00 MXN</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center pt-4">
+                        <span class="text-base font-bold">Total a Pagar</span>
+                        <span class="text-2xl font-black" id="checkout-total">$0.00 MXN</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-black text-white mt-20 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <span class="text-2xl font-black tracking-widest text-white">RAÚL</span>
+                        <span class="ml-2 text-xs font-light text-gray-400 tracking-wider uppercase border-l border-gray-700 pl-2">STUDIO</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Ropa urbana exclusiva diseñada para expresar tu estilo e identidad singular.</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-wider mb-4 text-gray-300">Navegación</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" onclick="navigateTo('inicio')" class="hover:text-white">Inicio</a></li>
+                        <li><a href="#" onclick="navigateTo('tienda')" class="hover:text-white">Tienda</a></li>
+                        <li><a href="#" onclick="filterOffers()" class="hover:text-white">Ofertas</a></li>
+                        <li><a href="#" onclick="navigateTo('conocenos')" class="hover:text-white">Conócenos</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-wider mb-4 text-gray-300">Atención al Cliente</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" onclick="navigateTo('contacto')" class="hover:text-white">Contacto</a></li>
+                        <li><a href="https://wa.me/5215519242470" target="_blank" class="hover:text-white">WhatsApp Oficial</a></li>
+                        <li><span>Envíos a todo México</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-wider mb-4 text-gray-300">Síguenos</h3>
+                    <div class="flex space-x-4 text-gray-400 text-xl">
+                        <a href="#" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@rulspidey?is_from_webapp=1&sender_device=pc" target="_blank" class="hover:text-white"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="hover:text-white"><i class="fa-brands fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-xs text-gray-500">
+                &copy; 2026 RAÚL STUDIO. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL BÚSQUEDA -->
+    <div id="search-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-start justify-center pt-20 px-4">
+        <div class="bg-white rounded-2xl w-full max-w-2xl p-6 shadow-2xl">
+            <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+                <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Buscar playera, estilo o categoría..." class="w-full text-lg font-medium focus:outline-none pr-4">
+                <button onclick="toggleSearchModal()" class="text-gray-400 hover:text-black">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="search-results" class="mt-4 max-h-96 overflow-y-auto space-y-3">
+                <p class="text-sm text-gray-400 text-center py-4">Empieza a escribir para buscar prendas...</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- LOGICA JAVASCRIPT -->
+    <script>
+        // BASE DE DATOS DE PRODUCTOS
+        const products = [
+            {
+                id: 1,
+                name: "Playera Urbana Oversized Negra",
+                category: "Diseños urbanos",
+                price: 499,
+                originalPrice: 649,
+                badge: "OFERTA",
+                sizes: ["S", "M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.10 PM.jpeg",
+                isOffer: true
+            },
+            {
+                id: 2,
+                name: "Playera Minimal Icon Blanca",
+                category: "Playeras con iconos",
+                price: 399,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.12 PM.jpeg",
+                isOffer: false
+            },
+            {
+                id: 3,
+                name: "Playera Gráfica Cyber Street",
+                category: "Diseños exclusivos",
+                price: 549,
+                originalPrice: 699,
+                badge: "OFERTA",
+                sizes: ["S", "M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.13 PM.jpeg",
+                isOffer: true
+            },
+            {
+                id: 4,
+                name: "Playera Personalizable RAÚL Studio",
+                category: "Personalizadas",
+                price: 599,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.14 PM.jpeg",
+                isOffer: false
+            },
+            {
+                id: 5,
+                name: "Playera Minimalist Line Art",
+                category: "Minimalistas",
+                price: 420,
+                originalPrice: null,
+                badge: "",
+                sizes: ["S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.16 PM.jpeg",
+                isOffer: false
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.17 PM.jpeg",
+                isOffer: true
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.18 PM.jpeg",
+                isOffer: true
+             },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.19 PM.jpeg",
+                isOffer: true
+              },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.20 PM.jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.21 PM.jpeg",
+                isOffer: true
+                 },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.23 PM.jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.24 PM.jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.25 PM.jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.26 PM.jpeg",
+                isOffer: true
+            },
+            {
+                id: 2,
+                name: "Playera Minimal Icon Blanca",
+                category: "Playeras con iconos",
+                price: 399,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.28 PM (1).jpeg",
+                isOffer: false
+            },
+            {
+                id: 3,
+                name: "Playera Gráfica Cyber Street",
+                category: "Diseños exclusivos",
+                price: 549,
+                originalPrice: 699,
+                badge: "OFERTA",
+                sizes: ["S", "M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.28 PM.jpeg",
+                isOffer: true
+            },
+            {
+                id: 4,
+                name: "Playera Personalizable RAÚL Studio",
+                category: "Personalizadas",
+                price: 599,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.29 PM (1).jpeg",
+                isOffer: false
+            },
+            {
+                id: 5,
+                name: "Playera Minimalist Line Art",
+                category: "Minimalistas",
+                price: 420,
+                originalPrice: null,
+                badge: "",
+                sizes: ["S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.29 PM (2).jpeg",
+                isOffer: false
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.29 PM.jpeg",
+                isOffer: true
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.30 PM (1).jpeg",
+                isOffer: true
+             },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.30 PM (2).jpeg",
+                isOffer: true
+              },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.30 PM (3).jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.30 PM (4).jpeg",
+                isOffer: true
+                 },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.30 PM.jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.31 PM (1).jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.31 PM (2).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.31 PM (3).jpeg",
+                isOffer: true
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.31 PM (4).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.31 PM.jpeg",
+                isOffer: true
+            },
+            {
+                id: 2,
+                name: "Playera Minimal Icon Blanca",
+                category: "Playeras con iconos",
+                price: 399,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.32 PM (1).jpeg",
+                isOffer: false
+            },
+            {
+                id: 3,
+                name: "Playera Gráfica Cyber Street",
+                category: "Diseños exclusivos",
+                price: 549,
+                originalPrice: 699,
+                badge: "OFERTA",
+                sizes: ["S", "M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.32 PM (2).jpeg",
+                isOffer: true
+            },
+            {
+                id: 4,
+                name: "Playera Personalizable RAÚL Studio",
+                category: "Personalizadas",
+                price: 599,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.32 PM (3).jpeg",
+                isOffer: false
+            },
+            {
+                id: 5,
+                name: "Playera Minimalist Line Art",
+                category: "Minimalistas",
+                price: 420,
+                originalPrice: null,
+                badge: "",
+                sizes: ["S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.32 PM (4).jpeg",
+                isOffer: false
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.32 PM (5).jpeg",
+                isOffer: true
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.32 PM.jpeg",
+                isOffer: true
+             },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.33 PM (1).jpeg",
+                isOffer: true
+              },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.33 PM (2).jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.33 PM (3).jpeg",
+                isOffer: true
+                 },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.33 PM (4).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.33 PM (5).jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.33 PM (6).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.33 PM.jpeg",
+                isOffer: true
+             },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.34 PM (1).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.34 PM (2).jpeg",
+                isOffer: true
+            },
+            {
+                id: 2,
+                name: "Playera Minimal Icon Blanca",
+                category: "Playeras con iconos",
+                price: 399,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.34 PM (3).jpeg",
+                isOffer: false
+            },
+            {
+                id: 3,
+                name: "Playera Gráfica Cyber Street",
+                category: "Diseños exclusivos",
+                price: 549,
+                originalPrice: 699,
+                badge: "OFERTA",
+                sizes: ["S", "M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.34 PM (4).jpeg",
+                isOffer: true
+            },
+            {
+                id: 4,
+                name: "Playera Personalizable RAÚL Studio",
+                category: "Personalizadas",
+                price: 599,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.34 PM.jpeg",
+                isOffer: false
+            },
+            {
+                id: 5,
+                name: "Playera Minimalist Line Art",
+                category: "Minimalistas",
+                price: 420,
+                originalPrice: null,
+                badge: "",
+                sizes: ["S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.35 PM (1).jpeg",
+                isOffer: false
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.35 PM (2).jpeg",
+                isOffer: true
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.35 PM.jpeg",
+                isOffer: true
+             },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.36 PM (1).jpeg",
+                isOffer: true
+              },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.36 PM (2).jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.36 PM (3).jpeg",
+                isOffer: true
+                 },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.36 PM (4).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.36 PM (5).jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.36 PM.jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.37 PM (1).jpeg",
+                isOffer: true
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.37 PM (2).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.37 PM (3).jpeg",
+                isOffer: true
+            },
+            {
+                id: 2,
+                name: "Playera Minimal Icon Blanca",
+                category: "Playeras con iconos",
+                price: 399,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.37 PM (4).jpeg",
+                isOffer: false
+            },
+            {
+                id: 3,
+                name: "Playera Gráfica Cyber Street",
+                category: "Diseños exclusivos",
+                price: 549,
+                originalPrice: 699,
+                badge: "OFERTA",
+                sizes: ["S", "M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.37 PM (5).jpeg",
+                isOffer: true
+            },
+            {
+                id: 4,
+                name: "Playera Personalizable RAÚL Studio",
+                category: "Personalizadas",
+                price: 599,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.37 PM (6).jpeg",
+                isOffer: false
+            },
+            {
+                id: 5,
+                name: "Playera Minimalist Line Art",
+                category: "Minimalistas",
+                price: 420,
+                originalPrice: null,
+                badge: "",
+                sizes: ["S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.37 PM.jpeg",
+                isOffer: false
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.38 PM (1).jpeg",
+                isOffer: true
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.38 PM (2).jpeg",
+                isOffer: true
+             },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.38 PM (3).jpeg",
+                isOffer: true
+              },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.38 PM (4).jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.38 PM (5).jpeg",
+                isOffer: true
+                 },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.38 PM.jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.39 PM (1).jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.39 PM (2).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.39 PM (3).jpeg",
+                isOffer: true
+            
+
+
+
+
+
+
+
+                   },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.39 PM (4).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.39 PM (5).jpeg",
+                isOffer: true
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.39 PM.jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.40 PM (1).jpeg",
+                isOffer: true
+            },
+            {
+                id: 2,
+                name: "Playera Minimal Icon Blanca",
+                category: "Playeras con iconos",
+                price: 399,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.40 PM (2).jpeg",
+                isOffer: false
+            },
+            {
+                id: 3,
+                name: "Playera Gráfica Cyber Street",
+                category: "Diseños exclusivos",
+                price: 549,
+                originalPrice: 699,
+                badge: "OFERTA",
+                sizes: ["S", "M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.40 PM (3).jpeg",
+                isOffer: true
+            },
+            {
+                id: 4,
+                name: "Playera Personalizable RAÚL Studio",
+                category: "Personalizadas",
+                price: 599,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.40 PM.jpeg",
+                isOffer: false
+            },
+            {
+                id: 5,
+                name: "Playera Minimalist Line Art",
+                category: "Minimalistas",
+                price: 420,
+                originalPrice: null,
+                badge: "",
+                sizes: ["S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.41 PM (1).jpeg",
+                isOffer: false
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.41 PM (2).jpeg",
+                isOffer: true
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.41 PM.jpeg",
+                isOffer: true
+             },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.42 PM (1).jpeg",
+                isOffer: true
+              },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.42 PM (2).jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.42 PM (3).jpeg",
+                isOffer: true
+                 },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.42 PM (4).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.42 PM (5).jpeg",
+                isOffer: true
+               },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.42 PM (6).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.42 PM.jpeg",
+                isOffer: true
+                 },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.43 PM (1).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.43 PM (2).jpeg",
+                isOffer: true
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.43 PM (3).jpeg",
+                isOffer: true
+                    },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.43 PM (4).jpeg",
+                isOffer: true
+            },
+            {
+                id: 2,
+                name: "Playera Minimal Icon Blanca",
+                category: "Playeras con iconos",
+                price: 399,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.43 PM (5).jpeg",
+                isOffer: false
+            },
+            {
+                id: 3,
+                name: "Playera Gráfica Cyber Street",
+                category: "Diseños exclusivos",
+                price: 549,
+                originalPrice: 699,
+                badge: "OFERTA",
+                sizes: ["S", "M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.43 PM.jpeg",
+                isOffer: true
+            },
+            {
+                id: 4,
+                name: "Playera Personalizable RAÚL Studio",
+                category: "Personalizadas",
+                price: 599,
+                originalPrice: null,
+                badge: "NUEVO",
+                sizes: ["XS", "S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.44 PM (1).jpeg",
+                isOffer: false
+            },
+            {
+                id: 5,
+                name: "Playera Minimalist Line Art",
+                category: "Minimalistas",
+                price: 420,
+                originalPrice: null,
+                badge: "",
+                sizes: ["S", "M", "L"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.44 PM (2).jpeg",
+                isOffer: false
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.44 PM (3).jpeg",
+                isOffer: true
+            },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.44 PM (4).jpeg",
+                isOffer: true
+             },
+            {
+                id: 6,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 10.06.44 PM.jpeg",
+                isOffer: true
+              },
+            {
+                id: 8,
+                name: "Playera Vintage Typography",
+                category: "Diseños urbanos",
+                price: 450,
+                originalPrice: 550,
+                badge: "OFERTA",
+                sizes: ["M", "L", "XL"],
+                image: "WhatsApp Image 2026-10-22 at 11.23.22 AM.jpeg",
+                isOffer: true
+               }
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        ];
+
+
+        // ESTADO DE LA APLICACIÓN
+        let cart = [];
+        let selectedCategory = "Todas";
+        let selectedSizesState = {}; // Almacena la talla seleccionada por cada producto id
+
+        const categories = ["Todas", "Playeras con iconos", "Diseños urbanos", "Minimalistas", "Diseños exclusivos", "Personalizadas", "Ofertas"];
+
+        // INICIALIZACIÓN
+        window.onload = function() {
+            renderCategoryPills();
+            renderFeaturedProducts();
+            renderCatalogProducts();
+            updateCartUI();
+        };
+
+        // NAVEGACIÓN SIMPLE (SPA)
+        function navigateTo(viewId) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.add('hidden'));
+            const target = document.getElementById(`view-${viewId}`);
+            if(target) target.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Actualizar estilo enlaces del header
+            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('text-black', 'border-b-2', 'border-black'));
+            const activeNav = document.getElementById(`nav-${viewId}`);
+            if(activeNav) activeNav.classList.add('text-black');
+        }
+
+        // MOSTRAR SOLO OFERTAS DESDE MENÚ O HERO
+        function filterOffers() {
+            selectedCategory = "Ofertas";
+            renderCategoryPills();
+            applyFilters();
+            navigateTo('tienda');
+        }
+
+        // RENDER DE CATEGORÍAS EN TIENDA
+        function renderCategoryPills() {
+            const container = document.getElementById('category-pills');
+            container.innerHTML = categories.map(cat => `
+                <button onclick="selectCategory('${cat}')" class="px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all ${selectedCategory === cat ? 'bg-black text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function selectCategory(cat) {
+            selectedCategory = cat;
+            renderCategoryPills();
+            applyFilters();
+        }
+
+        // RENDER TARJETA DE PRODUCTO
+        function createProductCardHTML(p) {
+            const currentSelectedSize = selectedSizesState[p.id] || p.sizes[0];
+            return `
+                <div class="group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+                    <div class="relative overflow-hidden bg-gray-100 aspect-square">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        ${p.badge ? `<span class="absolute top-3 left-3 bg-black text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider">${p.badge}</span>` : ''}
+                        <button onclick="showWishlistNotification()" class="absolute top-3 right-3 bg-white/80 backdrop-blur-md p-2 rounded-full hover:bg-white text-gray-700 hover:text-black transition-all">
+                            <i class="fa-regular fa-heart text-sm"></i>
+                        </button>
+                    </div>
+
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">${p.category}</span>
+                            <h3 class="font-bold text-gray-900 text-sm leading-snug mb-2">${p.name}</h3>
+                            <div class="flex items-center space-x-2 mb-4">
+                                <span class="font-extrabold text-base text-black">$${p.price}.00 MXN</span>
+                                ${p.originalPrice ? `<span class="text-xs text-gray-400 line-through">$${p.originalPrice}.00 MXN</span>` : ''}
+                            </div>
+                        </div>
+
+                        <div>
+                            <!-- Seleccionar Talla -->
+                            <div class="flex items-center space-x-1.5 mb-4">
+                                <span class="text-[11px] font-semibold text-gray-400 mr-1">Talla:</span>
+                                ${p.sizes.map(size => `
+                                    <button onclick="selectProductSize(${p.id}, '${size}')" class="w-7 h-7 text-[10px] font-bold rounded-md border transition-all ${currentSelectedSize === size ? 'bg-black text-white border-black' : 'border-gray-200 text-gray-700 hover:border-gray-400'}">
+                                        ${size}
+                                    </button>
+                                `).join('')}
+                            </div>
+
+                            <button onclick="addToCart(${p.id})" class="w-full bg-black text-white text-xs font-bold py-3 rounded-xl hover:bg-gray-800 transition-all flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-bag-shopping"></i>
+                                <span>Agregar al Carrito</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectProductSize(productId, size) {
+            selectedSizesState[productId] = size;
+            renderFeaturedProducts();
+            applyFilters();
+        }
+
+        // RENDER SECCIONES DE PRODUCTOS
+        function renderFeaturedProducts() {
+            const grid = document.getElementById('featured-products-grid');
+            grid.innerHTML = products.slice(0, 4).map(p => createProductCardHTML(p)).join('');
+        }
+
+        function renderCatalogProducts() {
+            applyFilters();
+        }
+
+        function applyFilters() {
+            let filtered = [...products];
+
+            if (selectedCategory === "Ofertas") {
+                filtered = filtered.filter(p => p.isOffer);
+            } else if (selectedCategory !== "Todas") {
+                filtered = filtered.filter(p => p.category === selectedCategory);
+            }
+
+            const sizeFilter = document.getElementById('filter-size').value;
+            if (sizeFilter !== "ALL") {
+                filtered = filtered.filter(p => p.sizes.includes(sizeFilter));
+            }
+
+            const order = document.getElementById('filter-order').value;
+            if (order === "price-low") filtered.sort((a, b) => a.price - b.price);
+            if (order === "price-high") filtered.sort((a, b) => b.price - a.price);
+
+            const grid = document.getElementById('catalog-products-grid');
+            if (filtered.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center text-gray-400 py-12">No se encontraron playeras con estos filtros.</p>`;
+            } else {
+                grid.innerHTML = filtered.map(p => createProductCardHTML(p)).join('');
+            }
+        }
+
+        // GESTIÓN DEL CARRITO
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const size = selectedSizesState[productId] || product.sizes[0];
+
+            const existingIndex = cart.findIndex(item => item.id === productId && item.selectedSize === size);
+
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    selectedSize: size,
+                    quantity: 1
+                });
+            }
+
+            updateCartUI();
+            showToast(`Añadido: ${product.name} (${size})`);
+        }
+
+        function updateQuantity(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            // Badge del Header
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-badge').innerText = totalItems;
+            document.getElementById('cart-item-count').innerText = `ARTÍCULOS (${totalItems})`;
+
+            // Lista en Carrito
+            const cartContainer = document.getElementById('cart-items-list');
+            const subtotalEl = document.getElementById('cart-subtotal');
+            const totalEl = document.getElementById('cart-total');
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `
+                    <div class="text-center py-12 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                        <i class="fa-solid fa-bag-shopping text-3xl text-gray-300 mb-3"></i>
+                        <p class="text-gray-500 font-medium text-sm">Tu carrito está vacío.</p>
+                        <button onclick="navigateTo('tienda')" class="mt-4 bg-black text-white text-xs font-bold px-6 py-2.5 rounded-full">Explorar Tienda</button>
+                    </div>
+                `;
+                subtotalEl.innerText = "$0.00 MXN";
+                totalEl.innerText = "$0.00 MXN";
+                document.getElementById('btn-proceed-checkout').disabled = true;
+                document.getElementById('btn-proceed-checkout').classList.add('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            document.getElementById('btn-proceed-checkout').disabled = false;
+            document.getElementById('btn-proceed-checkout').classList.remove('opacity-50', 'cursor-not-allowed');
+
+            let subtotal = 0;
+            cartContainer.innerHTML = cart.map((item, idx) => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                return `
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div class="flex items-center space-x-4">
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl">
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-900">${item.name}</h4>
+                                <div class="flex items-center space-x-2 text-xs text-gray-500 mt-1">
+                                    <span>Talla: <strong>${item.selectedSize}</strong></span>
+                                    <span>•</span>
+                                    <span class="font-semibold text-black">$${item.price}.00 MXN</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-6">
+                            <div class="flex items-center border border-gray-200 rounded-lg bg-white">
+                                <button onclick="updateQuantity(${idx}, -1)" class="px-2.5 py-1 text-xs text-gray-500 hover:text-black">-</button>
+                                <span class="px-2 text-xs font-bold">${item.quantity}</span>
+                                <button onclick="updateQuantity(${idx}, 1)" class="px-2.5 py-1 text-xs text-gray-500 hover:text-black">+</button>
+                            </div>
+                            <span class="font-bold text-sm min-w-[80px] text-right">$${itemTotal}.00 MXN</span>
+                            <button onclick="removeFromCart(${idx})" class="text-gray-400 hover:text-red-500 text-sm">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const shipping = 120;
+            subtotalEl.innerText = `$${subtotal}.00 MXN`;
+            totalEl.innerText = `$${subtotal + shipping}.00 MXN`;
+
+            // Actualizar vista de checkout
+            updateCheckoutSummary(subtotal, shipping);
+        }
+
+        function updateCheckoutSummary(subtotal, shipping) {
+            const summaryContainer = document.getElementById('checkout-summary-items');
+            summaryContainer.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center text-xs">
+                    <div>
+                        <p class="font-bold text-gray-800">${item.name}</p>
+                        <p class="text-gray-400">Talla: ${item.selectedSize} | Cant: ${item.quantity}</p>
+                    </div>
+                    <span class="font-bold">$${item.price * item.quantity}.00 MXN</span>
+                </div>
+            `).join('');
+
+            document.getElementById('checkout-subtotal').innerText = `$${subtotal}.00 MXN`;
+            document.getElementById('checkout-shipping').innerText = `$${shipping}.00 MXN`;
+            document.getElementById('checkout-total').innerText = `$${subtotal + shipping}.00 MXN`;
+        }
+
+        // ENVIAR ORDEN A WHATSAPP
+        function processOrderWhatsApp(e) {
+            e.preventDefault();
+            if (cart.length === 0) return;
+
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const city = document.getElementById('cust-city').value;
+            const address = document.getElementById('cust-address').value;
+
+            let orderText = `*NUEVO PEDIDO — RAÚL STUDIO*\n\n`;
+            orderText += `*Cliente:* ${name}\n`;
+            orderText += `*Teléfono:* ${phone}\n`;
+            orderText += `*Ciudad/Estado:* ${city}\n`;
+            orderText += `*Dirección:* ${address}\n\n`;
+            orderText += `*Detalle del Pedido:*\n`;
+
+            let subtotal = 0;
+            cart.forEach(item => {
+                const total = item.price * item.quantity;
+                subtotal += total;
+                orderText += `• ${item.name} (Talla: ${item.selectedSize}) x${item.quantity} - $${total} MXN\n`;
+            });
+
+            const shipping = 120;
+            orderText += `\n*Subtotal:* $${subtotal} MXN`;
+            orderText += `\n*Envío:* $${shipping} MXN`;
+            orderText += `\n*Total a pagar:* $${subtotal + shipping} MXN\n\n`;
+            orderText += `_Solicito confirmación de datos bancarios para realizar el pago._`;
+
+            const encodedURL = `https://wa.me/5215519242470?text=${encodeURIComponent(orderText)}`;
+            window.open(encodedURL, '_blank');
+        }
+
+        // CONTACTO FORM
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            showToast("Mensaje enviado con éxito");
+            e.target.reset();
+        }
+
+        // BÚSQUEDA MODAL
+        function toggleSearchModal() {
+            const modal = document.getElementById('search-modal');
+            modal.classList.toggle('hidden');
+            if(!modal.classList.contains('hidden')) {
+                document.getElementById('search-input').focus();
+            }
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const resultsContainer = document.getElementById('search-results');
+
+            if (!query.trim()) {
+                resultsContainer.innerHTML = `<p class="text-sm text-gray-400 text-center py-4">Empieza a escribir para buscar prendas...</p>`;
+                return;
+            }
+
+            const matched = products.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+
+            if (matched.length === 0) {
+                resultsContainer.innerHTML = `<p class="text-sm text-gray-400 text-center py-4">No encontramos coincidencia con "${query}"</p>`;
+            } else {
+                resultsContainer.innerHTML = matched.map(p => `
+                    <div onclick="navigateTo('tienda'); toggleSearchModal();" class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-xl cursor-pointer">
+                        <div class="flex items-center space-x-3">
+                            <img src="${p.image}" class="w-12 h-12 object-cover rounded-lg">
+                            <div>
+                                <h5 class="text-sm font-bold">${p.name}</h5>
+                                <span class="text-xs text-gray-400">${p.category}</span>
+                            </div>
+                        </div>
+                        <span class="text-sm font-black">$${p.price}.00 MXN</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // NOTIFICACIONES TOAST
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function showWishlistNotification() {
+            showToast("Añadido a tus favoritos ❤️");
+        }
+    </script>
+</body>
+</html>
